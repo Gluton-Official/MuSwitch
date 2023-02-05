@@ -23,9 +23,9 @@ SOUNDCLOUD_CLIENT_ID=
 YOUTUBE_API_KEY=
 ```
 4. Give the Discord bot these permissions:
-   - `Read Message History`,
-   - `Send Messages`,
-   - `Send Messages In Threads`,
-   - `Read Messages/View Channels`,
-   - `Use Application/Slash Commands`,
+   - `Read Message History`
+   - `Send Messages`
+   - `Send Messages In Threads`
+   - `Read Messages/View Channels`
+   - `Use Application/Slash Commands`
 4. Run `graldew run`
