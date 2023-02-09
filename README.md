@@ -25,6 +25,6 @@ Adds message context commands that find links to songs on supported platforms in
    - `BOT_TOKEN`: your [Discord bot](https://discord.com/developers/applications)'s token
    - `SPOTIFY_CLIENT_ID`: your [Spotify app](https://developer.spotify.com/dashboard/applications)'s client ID
    - `SPOTIFY_CLIENT_SECRET`: your [Spotify app](https://developer.spotify.com/dashboard/applications)'s client secret
-   - `SOUNDCLOUD_CLIENT_ID`: open your browser's developer tools' network tab in SoundCloud, do some action on the webpage (e.g. click a button or refresh the page), and locate your client ID in the preview tab of a packet
+   - `SOUNDCLOUD_CLIENT_ID`: open your browser's developer tools' network tab in SoundCloud, do some action on the webpage (e.g. click a button or refresh the page), and locate the `client_id` paramter in the payload tab of a packet
    - `YOUTUBE_API_KEY`: go to [YouTube's deveoper console](https://console.developers.google.com/), create a project, go to its Credentials page, create a Simple Key, and copy its API key
 4. **Run with** `graldew run`
