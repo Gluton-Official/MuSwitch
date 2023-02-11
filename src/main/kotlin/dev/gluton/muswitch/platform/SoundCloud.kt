@@ -15,6 +15,7 @@ import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 
+@Suppress("unused")
 object SoundCloud : Platform("soundcloud.com") {
     private val SEARCH_QUERY = "https://api-v2.soundcloud.com/search/tracks?client_id=${dotenv["SOUNDCLOUD_CLIENT_ID"]}&q="
     private val TRACK_QUERY = "https://api-v2.soundcloud.com/resolve?client_id=${dotenv["SOUNDCLOUD_CLIENT_ID"]}&url="

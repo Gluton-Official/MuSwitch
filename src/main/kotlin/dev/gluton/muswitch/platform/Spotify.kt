@@ -8,6 +8,7 @@ import dev.gluton.muswitch.dotenv
 import dev.gluton.muswitch.util.paths
 import kotlinx.coroutines.runBlocking
 
+@Suppress("unused")
 object Spotify : Platform("spotify.com") {
     private val api = runBlocking {
         spotifyAppApi(

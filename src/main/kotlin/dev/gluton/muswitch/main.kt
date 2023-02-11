@@ -33,6 +33,7 @@ fun main() {
     }
 }
 
+@Suppress("unused")
 fun commands() = commands("μSwitch") {
     for (platform in platforms) {
         val platformName = platform::class.simpleName!!

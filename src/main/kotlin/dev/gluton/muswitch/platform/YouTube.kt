@@ -16,6 +16,7 @@ import kotlinx.serialization.json.jsonObject
 private const val DOMAIN = "youtube.com"
 private const val SHORT_DOMAIN = "youtu.be"
 
+@Suppress("unused")
 object YouTube : Platform(DOMAIN, SHORT_DOMAIN) {
     private const val VIDEO_PREFIX = "https://www.youtube.com/watch?v="
 
