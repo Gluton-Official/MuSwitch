@@ -36,16 +36,23 @@ object SoundCloud : Platform("soundcloud.com") {
         }
     }
 
-    @Serializable private data class SoundCloudTrack(
-        @SerialName("permalink_url") val permalinkUrl: String,
+    @Serializable
+    private data class SoundCloudTrack(
+        @SerialName("permalink_url")
+        val permalinkUrl: String,
         val title: String,
         val user: User,
-        @SerialName("publisher_metadata") val publisherMetadata: PublisherMetadata?,
+        @SerialName("publisher_metadata")
+        val publisherMetadata: PublisherMetadata? = null,
     ) {
-        @Serializable data class User(val username: String)
-        @Serializable data class PublisherMetadata(
+        @Serializable
+        data class User(val username: String)
+
+        @Serializable
+        data class PublisherMetadata(
             val artist: String? = null,
-            @SerialName("release_title") val releaseTitle: String? = null,
+            @SerialName("release_title")
+            val releaseTitle: String? = null,
         )
     }
 }

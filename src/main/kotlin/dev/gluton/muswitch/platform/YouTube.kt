@@ -45,11 +45,15 @@ object YouTube : Platform(DOMAIN, SHORT_DOMAIN) {
         }
     }
 
-    @Serializable private data class YouTubeSearchResult(val id: ResultId) {
-        @Serializable data class ResultId(val videoId: String)
+    @Serializable
+    private data class YouTubeSearchResult(val id: ResultId) {
+        @Serializable
+        data class ResultId(val videoId: String)
     }
 
-    @Serializable private data class YouTubeVideo(val id: String, val snippet: VideoSnippet) {
-        @Serializable data class VideoSnippet(val title: String, val channelTitle: String)
+    @Serializable
+    private data class YouTubeVideo(val id: String, val snippet: VideoSnippet) {
+        @Serializable
+        data class VideoSnippet(val title: String, val channelTitle: String)
     }
 }
