@@ -10,6 +10,7 @@ import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import me.jakejmattson.discordkt.commands.commands
+import mu.KotlinLogging
 
 val dotenv = dotenv()
 
@@ -17,6 +18,8 @@ val json = Json {
     ignoreUnknownKeys = true
     isLenient = true
 }
+
+val logger = KotlinLogging.logger {}
 
 fun main() {
     @OptIn(KordPreview::class)
@@ -37,6 +40,7 @@ fun main() {
 fun commands() = commands("μSwitch") {
     for (platform in platforms) {
         val platformName = platform::class.simpleName!!
+        logger.debug { "Registering 'find-on-${platformName.lowercase()}' command" }
         message(
             displayText = "Find on $platformName",
             slashName = "find-on-${platformName.lowercase()}",

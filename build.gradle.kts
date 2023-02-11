@@ -14,7 +14,12 @@ repositories {
 
 dependencies {
     implementation(kotlin("reflect"))
-    implementation("me.jakejmattson:DiscordKt:0.23.4")
+    implementation("ch.qos.logback:logback-classic:1.4.5")
+    implementation("io.github.microutils:kotlin-logging:3.0.5")
+    implementation("org.slf4j:slf4j-api:2.0.6")
+    implementation("me.jakejmattson:DiscordKt:0.23.4") {
+        exclude(group = "org.slf4j", module = "slf4j-simple")
+    }
     implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
     implementation("io.github.url-detector:url-detector:0.1.23")
     implementation("com.adamratzman:spotify-api-kotlin-core:3.8.8")
