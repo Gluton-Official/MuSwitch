@@ -16,35 +16,35 @@ import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 
 object SoundCloud : Platform("soundcloud.com") {
-	private val SEARCH_QUERY = "https://api-v2.soundcloud.com/search/tracks?client_id=${dotenv["SOUNDCLOUD_CLIENT_ID"]}&q="
-	private val TRACK_QUERY = "https://api-v2.soundcloud.com/resolve?client_id=${dotenv["SOUNDCLOUD_CLIENT_ID"]}&url="
+    private val SEARCH_QUERY = "https://api-v2.soundcloud.com/search/tracks?client_id=${dotenv["SOUNDCLOUD_CLIENT_ID"]}&q="
+    private val TRACK_QUERY = "https://api-v2.soundcloud.com/resolve?client_id=${dotenv["SOUNDCLOUD_CLIENT_ID"]}&url="
 
-	override suspend fun extractTrackData(url: Url): TrackData? {
-		return httpGet((TRACK_QUERY + url.urlWithoutQuery))?.let { response ->
-			tryOrNull { json.decodeFromString<SoundCloudTrack>(response) }?.run {
-				TrackData(publisherMetadata?.releaseTitle ?: title, listOf(publisherMetadata?.artist ?: user.username))
-			}
-		}
-	}
+    override suspend fun extractTrackData(url: Url): TrackData? {
+        return httpGet((TRACK_QUERY + url.urlWithoutQuery))?.let { response ->
+            tryOrNull { json.decodeFromString<SoundCloudTrack>(response) }?.run {
+                TrackData(publisherMetadata?.releaseTitle ?: title, listOf(publisherMetadata?.artist ?: user.username))
+            }
+        }
+    }
 
-	override suspend fun getTrackUrl(trackData: TrackData): Url? {
-		return httpGet(SEARCH_QUERY, trackData.toSimpleString())?.let { response ->
-			Json.parseToJsonElement(response).jsonObject["collection"]?.jsonArray?.firstOrNull()?.let { track ->
-				Url.create(json.decodeFromJsonElement<SoundCloudTrack>(track).permalinkUrl)
-			}
-		}
-	}
+    override suspend fun getTrackUrl(trackData: TrackData): Url? {
+        return httpGet(SEARCH_QUERY, trackData.toSimpleString())?.let { response ->
+            Json.parseToJsonElement(response).jsonObject["collection"]?.jsonArray?.firstOrNull()?.let { track ->
+                Url.create(json.decodeFromJsonElement<SoundCloudTrack>(track).permalinkUrl)
+            }
+        }
+    }
 
-	@Serializable private data class SoundCloudTrack(
-		@SerialName("permalink_url") val permalinkUrl: String,
-		val title: String,
-		val user: User,
-		@SerialName("publisher_metadata") val publisherMetadata: PublisherMetadata?,
-	) {
-		@Serializable data class User(val username: String)
-		@Serializable data class PublisherMetadata(
-			val artist: String? = null,
-			@SerialName("release_title") val releaseTitle: String? = null,
-		)
-	}
+    @Serializable private data class SoundCloudTrack(
+        @SerialName("permalink_url") val permalinkUrl: String,
+        val title: String,
+        val user: User,
+        @SerialName("publisher_metadata") val publisherMetadata: PublisherMetadata?,
+    ) {
+        @Serializable data class User(val username: String)
+        @Serializable data class PublisherMetadata(
+            val artist: String? = null,
+            @SerialName("release_title") val releaseTitle: String? = null,
+        )
+    }
 }

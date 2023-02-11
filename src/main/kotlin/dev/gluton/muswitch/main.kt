@@ -14,40 +14,40 @@ import me.jakejmattson.discordkt.commands.commands
 val dotenv = dotenv()
 
 val json = Json {
-	ignoreUnknownKeys = true
-	isLenient = true
+    ignoreUnknownKeys = true
+    isLenient = true
 }
 
 fun main() {
-	@OptIn(KordPreview::class)
-	bot(dotenv["BOT_TOKEN"]) {
-		configure {
-			defaultPermissions = Permissions(
-				Permission.ReadMessageHistory,
-				Permission.SendMessages,
-				Permission.SendMessagesInThreads,
-				Permission.ViewChannel,
-				Permission.UseApplicationCommands,
-			)
-		}
-	}
+    @OptIn(KordPreview::class)
+    bot(dotenv["BOT_TOKEN"]) {
+        configure {
+            defaultPermissions = Permissions(
+                Permission.ReadMessageHistory,
+                Permission.SendMessages,
+                Permission.SendMessagesInThreads,
+                Permission.ViewChannel,
+                Permission.UseApplicationCommands,
+            )
+        }
+    }
 }
 
 fun commands() = commands("μSwitch") {
-	for (platform in platforms) {
-		val platformName = platform::class.simpleName!!
-		message(
-			displayText = "Find on $platformName",
-			slashName = "find-on-${platformName.lowercase()}",
-			description = "Find song in message on $platformName",
-		) {
-			val tracks = getTracks(arg.content).takeIf { it.isNotEmpty() }
-			val response = tracks?.joinToString("\n") { trackData ->
-				runBlocking {
-					platform.getTrackUrl(trackData)?.fullUrl?.also { println("Converted to $platformName URL: $it") } ?: "No track found on $platformName with name `${trackData.toHeaderString()}`"
-				}
-			} ?: "No valid track URLs found in message"
-			respond(response)
-		}
-	}
+    for (platform in platforms) {
+        val platformName = platform::class.simpleName!!
+        message(
+            displayText = "Find on $platformName",
+            slashName = "find-on-${platformName.lowercase()}",
+            description = "Find song in message on $platformName",
+        ) {
+            val tracks = getTracks(arg.content).takeIf { it.isNotEmpty() }
+            val response = tracks?.joinToString("\n") { trackData ->
+                runBlocking {
+                    platform.getTrackUrl(trackData)?.fullUrl?.also { println("Converted to $platformName URL: $it") } ?: "No track found on $platformName with name `${trackData.toHeaderString()}`"
+                }
+            } ?: "No valid track URLs found in message"
+            respond(response)
+        }
+    }
 }

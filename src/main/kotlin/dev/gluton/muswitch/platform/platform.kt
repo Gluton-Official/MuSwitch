@@ -10,17 +10,17 @@ import kotlinx.coroutines.runBlocking
 val platforms = Platform::class.sealedSubclasses.map { it.objectInstance!! }
 
 fun getTracks(text: String): List<TrackData> = runBlocking {
-	UrlDetector(text, UrlDetectorOptions.Default).detect().mapNotNull { url ->
-		platforms.firstOrNull { platform -> url.domain in platform.domains }
-			?.also { println("Found ${it::class.simpleName} URL: $url") }
-			?.extractTrackData(url)
-			?.also { println("Extracted track data: $it") }
-	}
+    UrlDetector(text, UrlDetectorOptions.Default).detect().mapNotNull { url ->
+        platforms.firstOrNull { platform -> url.domain in platform.domains }
+            ?.also { println("Found ${it::class.simpleName} URL: $url") }
+            ?.extractTrackData(url)
+            ?.also { println("Extracted track data: $it") }
+    }
 }
 
 sealed class Platform(vararg domains: String) {
-	val domains = domains.toSet()
+    val domains = domains.toSet()
 
-	abstract suspend fun extractTrackData(url: Url): TrackData?
-	abstract suspend fun getTrackUrl(trackData: TrackData): Url?
+    abstract suspend fun extractTrackData(url: Url): TrackData?
+    abstract suspend fun getTrackUrl(trackData: TrackData): Url?
 }
