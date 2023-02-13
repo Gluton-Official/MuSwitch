@@ -1,7 +1,9 @@
 plugins {
+    application
     kotlin("jvm") version "1.8.0"
     kotlin("plugin.serialization") version "1.8.0"
-    application
+    id("com.google.devtools.ksp") version "1.8.0-1.0.9"
+    id("de.jensklingenberg.ktorfit") version "1.0.0"
 }
 
 group = "dev.gluton"
@@ -14,15 +16,30 @@ repositories {
 
 dependencies {
     implementation(kotlin("reflect"))
-    implementation("ch.qos.logback:logback-classic:1.4.5")
-    implementation("io.github.microutils:kotlin-logging:3.0.5")
-    implementation("org.slf4j:slf4j-api:2.0.6")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+
     implementation("me.jakejmattson:DiscordKt:0.23.4") {
         exclude(group = "org.slf4j", module = "slf4j-simple")
     }
+
+    // http
+    implementation("io.ktor:ktor-client-core:2.2.3")
+    implementation("io.ktor:ktor-client-cio:2.2.3")
+    implementation("io.ktor:ktor-client-logging:2.2.3")
+    implementation("io.ktor:ktor-client-content-negotiation:2.2.3")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.3")
+    implementation("io.ktor:ktor-client-logging-jvm:2.2.3")
+    ksp("de.jensklingenberg.ktorfit:ktorfit-ksp:1.0.0-beta17")
+    implementation("de.jensklingenberg.ktorfit:ktorfit-lib:1.0.0-beta17")
+
+    // util
     implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
     implementation("io.github.url-detector:url-detector:0.1.23")
-    implementation("com.adamratzman:spotify-api-kotlin-core:3.8.8")
+
+    // logging
+    implementation("ch.qos.logback:logback-classic:1.4.5")
+    implementation("io.github.microutils:kotlin-logging:3.0.5")
+    implementation("org.slf4j:slf4j-api:2.0.6")
 
     testImplementation(kotlin("test"))
 }
