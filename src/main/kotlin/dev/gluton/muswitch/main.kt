@@ -21,6 +21,8 @@ import mu.KotlinLogging
 val logger = KotlinLogging.logger {}
 val dotenv = dotenv()
 val httpClient = HttpClient(CIO) {
+    expectSuccess = true
+
     install(Logging)
     install(ContentNegotiation) {
         json(Json {
@@ -60,8 +62,15 @@ private fun CommandSetBuilder.buildPlatformCommand(platform: Platform) {
     ) {
         val message = arg.content
         val urls = findUrls(message)
-        val tracks = urls.mapNotNull(Track::from)
-        val tracksWithUrl = tracks.zip(platform.searchAll(tracks))
+
+        val tracks = runCatching { urls.mapNotNull(Track::from) }.getOrElse { exception ->
+            respond("Failed getting track data from url${(exception.message ?: exception.cause)?.let { ": $it" } ?: ""}")
+            return@message
+        }
+        val tracksWithUrl = runCatching { tracks.zip(platform.searchAll(tracks)) }.getOrElse { exception ->
+            respond("Failed getting search results${(exception.message ?: exception.cause)?.let { ": $it" } ?: ""}")
+            return@message
+        }
 
         val responseMessage = tracksWithUrl.takeIf { it.isNotEmpty() }?.joinToString("\n") { (track, url) ->
             url?.toString() ?: "No track found on $platformName with artist(s) `${track.artists.joinToString()}` and title `${track.title}`"
